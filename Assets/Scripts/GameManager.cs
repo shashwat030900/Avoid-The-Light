@@ -3,9 +3,9 @@
 
     public class GameManager : MonoBehaviour
     {
-        public GameObject gameOverUI;
-        public GameObject gameWinUI;
-        public float surviveTime = 10f;
+        private GameObject gameOverUI;
+        private GameObject gameWinUI;
+        private float surviveTime = 10f;
 
         private void Start()
         {
