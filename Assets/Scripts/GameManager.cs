@@ -39,6 +39,7 @@
 
         public void RestartGame()
         {
+            Debug.Log("Restart Button Clicked!");
             Time.timeScale = 1f; 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
         }
