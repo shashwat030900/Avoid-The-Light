@@ -1,46 +1,67 @@
-    using UnityEngine;
-    using UnityEngine.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
+public class GameManager : MonoBehaviour
+{
+    public GameObject gameOverUI;
+    public GameObject gameWinUI;
+    public TMP_Text survivalTimeText;
+    public float surviveTime = 10f;
 
-    public class GameManager : MonoBehaviour
+    private float elapsedTime = 0f;
+    private bool isGameOver = false;
+
+    private void Start()
     {
-        private GameObject gameOverUI;
-        private GameObject gameWinUI;
-        private float surviveTime = 10f;
+        if (gameOverUI != null) gameOverUI.SetActive(false);
+        if (gameWinUI != null) gameWinUI.SetActive(false);
 
-        private void Start()
+        elapsedTime = 0f;
+        Invoke(nameof(GameWin), surviveTime);
+    }
+
+    private void Update()
+    {
+    if (!isGameOver)
         {
-             gameOverUI.SetActive(false); 
-             gameWinUI.SetActive(false);   
+        elapsedTime += Time.deltaTime;
+        int timeElapsed = Mathf.FloorToInt(elapsedTime); 
+        survivalTimeText.text = "Survival Time: " + timeElapsed + "s";
 
-            Invoke(nameof(GameWin), surviveTime);
         }
+    }
 
-        public void GameOver()
+
+
+    public void GameOver()
     {
-        Debug.Log("GameOver() function triggered.");
+        isGameOver = true;
 
         if (gameOverUI != null)
         {
             gameOverUI.SetActive(true);
-            Debug.Log("Game Over UI is now active.");
-            Time.timeScale = 0f; 
-        }
-        else
-        {
-            Debug.LogError("GameOver UI is NOT assigned in GameManager!");
-        }
-}
-
-        public void GameWin()
-        {
-            if (gameWinUI != null) gameWinUI.SetActive(true);
-            Time.timeScale = 0f; 
-        }
-
-        public void RestartGame()
-        {
-            Debug.Log("Restart Button Clicked!");
-            Time.timeScale = 1f; 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+            Time.timeScale = 0f;
         }
     }
+
+    public void GameWin()
+        {
+        isGameOver = true;
+
+        if (gameWinUI != null)
+        {
+            gameWinUI.SetActive(true);
+        }
+        Time.timeScale = 0f;
+        }
+
+    public void RestartGame()
+        {
+        Time.timeScale = 1f; 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    public void NextLevel(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+}
