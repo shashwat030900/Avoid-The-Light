@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance; 
     public GameObject gameOverUI;
     public GameObject gameWinUI;
     public TMP_Text survivalTimeText;
@@ -19,6 +20,11 @@ public class GameManager : MonoBehaviour
 
         elapsedTime = 0f;
         Invoke(nameof(GameWin), surviveTime);
+    }
+    
+    void Awake()
+    {
+        
     }
 
     private void Update()
@@ -62,6 +68,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     public void NextLevel(){
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 }
